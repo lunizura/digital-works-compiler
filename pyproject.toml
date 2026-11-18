@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "digital-works-compiler"
+version = "0.1.0"
+description = "Reverse-engineered Digital Works (.dwm) binary specification and zero-dependency Python circuit compiler"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+authors = [
+    { name = "Muhammad Izzul Islam" }
+]
+keywords = [
+    "digital-works",
+    "dwm",
+    "digital-logic",
+    "circuit-compiler",
+    "reverse-engineering",
+    "delphi-vcl",
+    "eda",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.urls]
+Homepage = "https://github.com/lunizura/digital-works-compiler"
+Repository = "https://github.com/lunizura/digital-works-compiler"
+Issues = "https://github.com/lunizura/digital-works-compiler/issues"
+
+[tool.setuptools]
+py-modules = ["dwm_builder"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "test_builder.py"]
+python_files = ["test_*.py"]
