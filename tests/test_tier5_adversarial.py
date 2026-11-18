@@ -926,9 +926,9 @@ class TestTier5AdversarialSerialization:
         with pytest.raises(ValueError, match="Cannot connect a pin to itself"):
             builder.connect(inp.pins["out"], inp.pins["out"])
 
-        # Invalid save directory
-        with pytest.raises(Exception):
-            builder.save("Z:\\nonexistent_directory_999\\circuit.dwm")
+        # Invalid save directory (cross-platform non-existent nested path)
+        with pytest.raises((FileNotFoundError, OSError)):
+            builder.save(os.path.join("nonexistent_directory_999", "nested_999", "circuit.dwm"))
 
     def test_tier5_feedback_loop_cyclic_wiring(self):
         """Verify cycle-free serialization algorithm handles feedback loops (e.g. SR latch) without infinite recursion."""
