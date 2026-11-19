@@ -1,6 +1,17 @@
 # Digital Works (`.dwm`) Circuit Compiler
 
-A zero-dependency Python compiler and reverse-engineered binary specification for generating native **Digital Works 3.0** (`.dwm`) schematic files directly from Python logic descriptions.
+[![CI](https://github.com/lunizura/digital-works-compiler/actions/workflows/ci.yml/badge.svg)](https://github.com/lunizura/digital-works-compiler/actions/workflows/ci.yml)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg)](#installation)
+
+A zero-dependency Python compiler and reverse-engineered binary specification for generating native **Digital Works 3.0** (`.dwm`) schematic files directly from Python code.
+
+## Why I Built This
+
+Digital Works is widely used for digital logic coursework and lab assignments, but its native `.dwm` file format is an undocumented proprietary binary stream. Manually clicking, dragging, and wiring larger circuits (multiplexers, adders, flip-flops, or truth-table implementations) inside the GUI is tedious and error-prone.
+
+I wanted a way to describe digital logic circuits cleanly in Python, preview their layout in the terminal, and compile them straight into authentic `.dwm` files that open directly in Digital Works—without relying on GUI macros or screenshots.
 
 ## Features
 
@@ -10,9 +21,19 @@ A zero-dependency Python compiler and reverse-engineered binary specification fo
 - **Terminal ASCII Schematic Previewer** — Renders placed components, wire tracks (`-`, `|`, `+`), and a component manifest directly in the terminal via `preview()`.
 - **Complete Format Specification (`DWM_FORMAT.md`)** — 1,092-line byte-level specification derived from 20 authentic Digital Works reference circuit files in `reference_seeds/`.
 
-## Quick Start
+## Installation
 
-Requires Python 3.9+ (no external runtime dependencies).
+Requires Python 3.9+ with **zero external runtime dependencies**.
+
+You can either copy `dwm_builder.py` directly into your project or install in editable mode:
+
+```bash
+git clone https://github.com/lunizura/digital-works-compiler.git
+cd digital-works-compiler
+pip install -e .
+```
+
+## Quick Start
 
 ```python
 from dwm_builder import DWMBuilder
@@ -40,6 +61,32 @@ print(circuit.preview())
 circuit.save("half_adder.dwm")
 ```
 
+Example `preview()` output:
+
+```text
+=== Circuit: Half Adder (6 components, 6 wires) ===
+    [INPUT:A]+
+             +----------
+             |              [XOR]------------------[LED:SUM]
+             +----------
+             |
+             |
+             |
+             |
+             |
+    [INPUT:B]+
+             +----------
+             |              [AND]------------------[LED:CARRY]
+             +----------
+Components:
+  [1] INPUT 'A' at (50.0, 100.0)
+  [2] INPUT 'B' at (50.0, 200.0)
+  [3] XOR at (200.0, 120.0)
+  [4] AND at (200.0, 220.0)
+  [5] LED 'SUM' at (350.0, 120.0)
+  [6] LED 'CARRY' at (350.0, 220.0)
+```
+
 ## API Overview
 
 | Method | Description |
@@ -57,14 +104,17 @@ circuit.save("half_adder.dwm")
 
 ```text
 .
-├── dwm_builder.py               # Core Python compiler, router, previewer, and VCL serializer
-├── DWM_FORMAT.md                # Full reverse-engineered Digital Works .dwm binary specification
-├── test_builder.py              # Standalone & pytest verification suite (43 tests)
+├── dwm_builder.py                # Core Python compiler, router, previewer, and VCL serializer
+├── DWM_FORMAT.md                 # Full reverse-engineered Digital Works .dwm binary specification
+├── test_builder.py               # Standalone & pytest verification suite (43 tests)
 ├── tests/
-│   ├── conftest.py              # Shared test fixtures
-│   ├── test_e2e.py              # 4-tier E2E test suite (135 tests)
+│   ├── conftest.py               # Shared test fixtures
+│   ├── test_e2e.py               # 4-tier E2E test suite (135 tests)
 │   └── test_tier5_adversarial.py # White-box adversarial stress tests (48 tests)
-└── reference_seeds/             # 20 authentic .dwm calibration files
+├── reference_seeds/              # 20 authentic .dwm calibration files
+├── pyproject.toml                # Package & pytest metadata
+├── .github/workflows/ci.yml      # GitHub Actions CI across Python 3.10–3.13
+└── LICENSE                       # MIT License
 ```
 
 ## Running Tests
@@ -84,7 +134,15 @@ python -m pytest -v
 ## Binary Format Documentation
 
 See [`DWM_FORMAT.md`](DWM_FORMAT.md) for the complete `.dwm` format specification, including:
-- Magic header & canonical preamble property list
+- Magic header (`04 dd c4 22 00`) & canonical preamble property list
 - Delphi VCL `TValueType` tokens and integer compaction rules
 - `TSerializeWriter` object-graph markers (`0x02 0x00`, `0x02 0x01`, `0x02 0x02`, `0x02 0x0F`)
 - Component class hierarchy, anchor geometry, pin offsets, and wire vertex records
+
+## Note
+
+This project was built with AI assistance for the tedious and complex reverse-engineering of the proprietary binary format, specification documentation, and test verification suite.
+
+## License
+
+Released under the [MIT License](LICENSE).
