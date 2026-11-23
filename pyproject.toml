@@ -49,3 +49,6 @@ py-modules = ["dwm_builder"]
 [tool.pytest.ini_options]
 testpaths = ["tests", "test_builder.py"]
 python_files = ["test_*.py"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

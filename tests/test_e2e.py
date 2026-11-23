@@ -14,10 +14,7 @@ Tiers Covered:
   - Tier 4: Real-World Application Workload Scenarios & Calibration (8 tests)
 """
 
-import math
-import os
 import sys
-import tempfile
 from pathlib import Path
 import pytest
 
@@ -143,9 +140,9 @@ class TestTier1InputPlacement:
 
     def test_add_input_collection_storage(self):
         builder = DWMBuilder()
-        c1 = builder.add_input(10.0, 20.0, label="A")
-        c2 = builder.add_input(30.0, 40.0, label="B")
-        c3 = builder.add_input(50.0, 60.0, label="C")
+        builder.add_input(10.0, 20.0, label="A")
+        builder.add_input(30.0, 40.0, label="B")
+        builder.add_input(50.0, 60.0, label="C")
         assert len(builder.components) == 3
         assert [c.label for c in builder.components] == ["A", "B", "C"]
 

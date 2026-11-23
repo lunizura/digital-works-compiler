@@ -12,11 +12,9 @@ Total Tier 5 Tests: 48
 from __future__ import annotations
 
 import io
-import math
 import os
 import sys
 import struct
-import tempfile
 from pathlib import Path
 import pytest
 
@@ -25,8 +23,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from dwm_builder import DWMBuilder, Component, Pin, Wire, MAGIC_HEADER
-from test_builder import assert_manhattan_invariants, detect_wire_t_junctions
+from dwm_builder import DWMBuilder, Component, Pin, Wire, MAGIC_HEADER  # noqa: E402
+from test_builder import assert_manhattan_invariants, detect_wire_t_junctions  # noqa: E402
 
 
 # ============================================================================
@@ -237,7 +235,7 @@ class TestTier5MultiBendAndSerpentineRouting:
         builder = DWMBuilder("SerpentinePreview")
         inp = builder.add_input(10.0, 10.0)
         led = builder.add_led(80.0, 80.0)
-        wire = builder.connect(inp.pins["out"], led.pins["in"])
+        builder.connect(inp.pins["out"], led.pins["in"])
 
         prev = builder.preview()
         assert isinstance(prev, str)
@@ -391,9 +389,9 @@ class TestTier5RoutingDeterminismAndInvariants:
             b = DWMBuilder("DeterminismTest")
             i = b.add_input(50.0, 80.0)
             g = b.add_gate("AND", 150.0, 100.0)
-            l = b.add_led(250.0, 100.0)
+            led = b.add_led(250.0, 100.0)
             b.connect(i.pins["out"], g.pins["in1"])
-            b.connect(g.pins["out"], l.pins["in"])
+            b.connect(g.pins["out"], led.pins["in"])
             return b
 
         b1, b2 = make_circuit(), make_circuit()
@@ -698,9 +696,9 @@ class TestTier5AdversarialSerialization:
     def test_tier5_unconnected_component_nil_marker_15(self):
         """Verify unconnected component pins emit Marker 15 (nil pointer, 0x02 0x0F) for connected_wire."""
         builder = DWMBuilder("UnconnectedComponents")
-        gate = builder.add_gate("AND", 100.0, 100.0)
-        inp = builder.add_input(50.0, 100.0)
-        led = builder.add_led(200.0, 100.0)
+        builder.add_gate("AND", 100.0, 100.0)
+        builder.add_input(50.0, 100.0)
+        builder.add_led(200.0, 100.0)
 
         data = builder.to_bytes()
         parser = DelphiVCLParser(data)
@@ -756,8 +754,8 @@ class TestTier5AdversarialSerialization:
         gate = builder.add_gate("AND", 150.0, 100.0)
         led = builder.add_led(250.0, 100.0)
 
-        w1 = builder.connect(inp.pins["out"], gate.pins["in1"])
-        w2 = builder.connect(gate.pins["out"], led.pins["in"])
+        builder.connect(inp.pins["out"], gate.pins["in1"])
+        builder.connect(gate.pins["out"], led.pins["in"])
 
         data = builder.to_bytes()
         parser = DelphiVCLParser(data)
