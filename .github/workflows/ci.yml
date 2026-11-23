@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -28,8 +28,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pytest
 
-      - name: Run standalone verification suite
+      - name: Run standalone verification suite (43 tests)
         run: python test_builder.py
 
-      - name: Run full pytest suite (226 tests)
-        run: python -m pytest -v
+      - name: Run E2E & adversarial pytest suite (183 tests)
+        run: python -m pytest tests -v

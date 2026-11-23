@@ -4,9 +4,7 @@ Comprehensive 4-Tier Verification Suite (Tiers 1-4)
 
 Milestone: E2E Testing Track
 Specification Authorities:
-  - ORIGINAL_REQUEST.md (R1-R4)
-  - PROJECT.md (Public interface contracts & pin offset tables)
-  - TEST_INFRA.md & sub_orch_e2e/SCOPE.md (Test architecture & thresholds)
+  - DWM_FORMAT.md (Public interface contracts & pin offset tables)
   - reference_seeds/circuit_half_adder.dwm (Calibration seed)
 
 Tiers Covered:

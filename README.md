@@ -1,7 +1,7 @@
 # Digital Works (`.dwm`) Circuit Compiler
 
 [![CI](https://github.com/lunizura/digital-works-compiler/actions/workflows/ci.yml/badge.svg)](https://github.com/lunizura/digital-works-compiler/actions/workflows/ci.yml)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg)](#installation)
 
@@ -23,7 +23,7 @@ I wanted a way to describe digital logic circuits cleanly in Python, preview the
 
 ## Installation
 
-Requires Python 3.9+ with **zero external runtime dependencies**.
+Requires Python 3.10+ with **zero external runtime dependencies**.
 
 You can either copy `dwm_builder.py` directly into your project or install in editable mode:
 
